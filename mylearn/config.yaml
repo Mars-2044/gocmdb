@@ -1,0 +1,27 @@
+app:
+  name: "web_app"
+  node: "dev"
+  port: 8081
+
+log:
+  level: "debug"
+  filename: "web_app.log"
+  max_size: 200
+  max_age: 30
+  max_backups: 7
+
+mysql:
+  host: "192.168.77.128"
+  port: 3306
+  user: "saier"
+  password: "Cssbh123.."
+  dbname: "cmdb"
+  max_conn: "200"
+  max_idle_conn: "10"
+
+redis:
+  password: "Cssbjb@123.."
+  port: 6379
+  dbnumber: 1
+  conn_pool: 200
+  host: "192.168.77.128"
