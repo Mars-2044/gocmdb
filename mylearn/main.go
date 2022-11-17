@@ -1,11 +1,13 @@
-package main 
+package mylearn
 
 import (
 	"context"
 	"fmt"
+	"github.com/spf13/viper"
 	"log"
 	"mylearn/dao/mysql"
 	"mylearn/dao/redis"
+	"mylearn/pkg/snowflake"
 	"mylearn/router"
 	"mylearn/settings"
 	"net/http"
@@ -39,18 +41,22 @@ func main() {
 
 	// 4. 初始化Redis连接
 	if err := redis.Init(); err != nil {
-		fmt.Printf("init mysql failed, err :%v\n", err)
+		fmt.Printf("init redis failed, err :%v\n", err)
 		return
 	}
 	defer redis.Close()
+
+	if err := snowflake.Init(viper.GetString("snowflakes.startTime"), viper.GetInt("snowflakes.machineID")); err != nil {
+		fmt.Printf("init snowflake failed, err :%v\n", err)
+		return
+	}
 
 	// 5. 注册路由
 	r := router.Setup()
 	// 6. 启动服务(优雅关机)
 
 	srv := &http.Server {
-		//Addr:    fmt.Sprintf(":%d", viper.GetString("app.port")),
-    Addr: ":8081",
+		Addr:    fmt.Sprintf(":%d", viper.GetString("app.port")),
 		Handler: r,
 	}
 

@@ -25,3 +25,7 @@ redis:
   dbnumber: 1
   conn_pool: 200
   host: "192.168.77.128"
+
+snowflakes:
+  startTime: "2020-07-01"
+  machineID: "1"

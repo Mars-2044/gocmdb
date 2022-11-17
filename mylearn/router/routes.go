@@ -11,5 +11,14 @@ func Setup() *gin.Engine{
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "ok")
 	})
+
+	r.POST("/signup", controller.SignUpHandler)
+
+	r.NoRoute(func(c *gin.Context) {
+		c.JSONP(http.StatusOK, gin.H{
+			"msg": "404",
+		})
+	})
+
 	return r
 }
