@@ -27,5 +27,5 @@ redis:
   host: "192.168.77.128"
 
 snowflakes:
-  startTime: "2020-07-01"
+  startTime: "2020-07-01 11:45:26"
   machineID: "1"
