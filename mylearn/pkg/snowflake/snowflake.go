@@ -3,21 +3,21 @@ package snowflake
 import (
 	"fmt"
 	"github.com/bwmarrin/snowflake"
-	"github.com/spf13/viper"
+	_ "github.com/spf13/viper"
 	"time"
 )
 
 var node *snowflake.Node
 
-func Init(startTime string, getInt int) (err error) {
+func Init(startTime string, machineID int) (err error) {
 	var st time.Time
-	const shortForm = "2006-Jan-02"
-	st, err = time.Parse(shortForm , viper.GetString("snowflake.startTime"))
+	const shortForm = "2006-01-02"
+	st, err = time.Parse(shortForm , startTime)
 	if err != nil {
 		return
 	}
 	snowflake.Epoch = st.UnixNano() / 1000000
-	node, err = snowflake.NewNode(viper.GetInt64("snowflake.machineID"))
+	node, err = snowflake.NewNode(1)
 	return
 }
 
