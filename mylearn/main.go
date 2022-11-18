@@ -46,7 +46,7 @@ func main() {
 	}
 	defer redis.Close()
 
-	if err := snowflake.Init(viper.GetString("snowflakes.startTime"), viper.GetInt("snowflakes.machineID")); err != nil {
+	if err := snowflake.Init("2020-07-01", 1); err != nil {
 		fmt.Printf("init snowflake failed, err :%v\n", err)
 		return
 	}
