@@ -3,44 +3,35 @@ package snowflake
 import (
 	"fmt"
 	"github.com/bwmarrin/snowflake"
+	"github.com/spf13/viper"
+	"time"
 )
 
-func GetID() int64 {
-	node, err := snowflake.NewNode(1)
-	if err != nil {
-		fmt.Printf("init failed, err %v\n", err)
-	}
+var node *snowflake.Node
 
-	id := node.Generate().Int64()
-	return id
+func Init(startTime string, getInt int) (err error) {
+	var st time.Time
+	st, err = time.Parse("2006-01-02 15:04:05", viper.GetString("snowflake.startTime"))
+	if err != nil {
+		return
+	}
+	snowflake.Epoch = st.UnixNano() / 1000000
+	node, err = snowflake.NewNode(viper.GetInt64("snowflake.machineID"))
+	return
 }
 
+func GetID() int64 {
+	return node.Generate().Int64()
+}
 
-//var node *snowflake.Node
-//
-//func Init(startTime string, getInt int) (err error) {
-//	var st time.Time
-//	st, err = time.Parse("2006-01-02 15:04:05", viper.GetString("snowflake.startTime"))
-//	if err != nil {
-//		return
-//	}
-//	snowflake.Epoch = st.UnixNano() / 1000000
-//	node, err = snowflake.NewNode(viper.GetInt64("snowflake.machineID"))
-//	return
-//}
-//
-//func GetID() int64 {
-//	return node.Generate().Int64()
-//}
-//
-//func main() {
-//	if err := Init("2020-07-01", 1); err != nil {
-//		fmt.Printf("init failed, err %v\n", err)
-//		return
-//	}
-//	id := GetID()
-//	fmt.Println(id)
-//}
+func main() {
+	if err := Init("2020-07-01", 1); err != nil {
+		fmt.Printf("init failed, err %v\n", err)
+		return
+	}
+	id := GetID()
+	fmt.Println(id)
+}
 
 //type Snowflake struct {
 //	sync.Mutex					// 锁
