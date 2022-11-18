@@ -1,4 +1,4 @@
-package mylearn
+package main
 
 import (
 	"context"

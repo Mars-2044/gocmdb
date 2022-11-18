@@ -14,7 +14,7 @@ func SignUpHandler(c *gin.Context) {
 	var p models.ParamSignUP
 	if err := c.ShouldBindJSON(&p); err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"msg": "请求参数有误",
+			"msg": err.Error(),
 		})
 		return
 	}
