@@ -56,7 +56,7 @@ func main() {
 	// 6. 启动服务(优雅关机)
 
 	srv := &http.Server {
-		Addr:    fmt.Sprintf(":%d", viper.GetString("app.port")),
+		Addr:    fmt.Sprintf(":%s", viper.GetString("app.port")),
 		Handler: r,
 	}
 
