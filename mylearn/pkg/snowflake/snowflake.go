@@ -11,7 +11,8 @@ var node *snowflake.Node
 
 func Init(startTime string, getInt int) (err error) {
 	var st time.Time
-	st, err = time.Parse("2006-01-02 15:04:05", viper.GetString("snowflake.startTime"))
+	const shortForm = "2006-Jan-02"
+	st, err = time.Parse(shortForm , viper.GetString("snowflake.startTime"))
 	if err != nil {
 		return
 	}
