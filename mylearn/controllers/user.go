@@ -16,11 +16,14 @@ func SignUpHandler(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"msg": "请求参数有误",
 		})
+		return
 	}
 
 	// 2.业务处理
-	logic.SignUp()
+	logic.SignUp(&p)
 	// 3.返回响应
 
-	c.JSON(http.StatusOK, "ok")
+	c.JSON(http.StatusOK, gin.H{
+		"msg": "success",
+	})
 }
