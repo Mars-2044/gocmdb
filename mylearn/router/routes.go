@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"mylearn/controllers"
 	"net/http"
 )
 
@@ -12,7 +13,7 @@ func Setup() *gin.Engine{
 		c.String(http.StatusOK, "ok")
 	})
 
-	r.POST("/signup", controller.SignUpHandler)
+	r.POST("/signup", controllers.SignUpHandler)
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSONP(http.StatusOK, gin.H{
