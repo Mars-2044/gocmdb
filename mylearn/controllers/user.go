@@ -2,6 +2,7 @@ package controllers
 
 import  (
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"mylearn/logic"
 	"mylearn/models"
 	"net/http"
@@ -13,8 +14,17 @@ func SignUpHandler(c *gin.Context) {
 
 	var p models.ParamSignUP
 	if err := c.ShouldBindJSON(&p); err != nil {
+
+		// 判断err是不是validator类型
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			c.JSON(http.StatusOK, gin.H{
+				"msg": err.Error(),
+			})
+			return
+		}
 		c.JSON(http.StatusOK, gin.H{
-			"msg": err.Error(),
+			"msg": removeTopStruct(errs.Translate(trans)),
 		})
 		return
 	}

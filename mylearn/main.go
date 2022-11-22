@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"log"
+	"mylearn/controllers"
 	"mylearn/dao/mysql"
 	"mylearn/dao/redis"
 	"mylearn/pkg/snowflake"
@@ -48,6 +49,11 @@ func main() {
 
 	if err := snowflake.Init("2020-07-01", 1); err != nil {
 		fmt.Printf("init snowflake failed, err :%v\n", err)
+		return
+	}
+	// 初始化gin框架报错中英文转换
+	if err := controllers.InitTrans("zh"); err != nil {
+		fmt.Printf("init validator failed, err :%v\n", err)
 		return
 	}
 
