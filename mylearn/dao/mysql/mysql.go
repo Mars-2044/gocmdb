@@ -1,12 +1,9 @@
 package mysql
 
 import (
-	"database/sql"
-	"errors"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"mylearn/models"
 )
 
 var db *sqlx.DB
@@ -26,26 +23,6 @@ func Init() (err error) {
 
 func Close() {
 	_ = db.Close()
-}
-
-func Login(p *models.User) (err error) {
-	oPassword := p.Password
-	sqlStr := `select user_id, username, password from user where username=?`
-	err = db.Get(p, sqlStr, p.Username)
-	if err == sql.ErrNoRows {
-		return errors.New("用户不存在")
-	}
-
-	if err != nil{
-		// 查询数据库失败
-		return err
-	}
-	// 判断密码是否正确
-	password := encryptPassword(oPassword)
-	if password != p.Password {
-		return errors.New("密码错误")
-	}
-	return err
 }
 
 
