@@ -11,14 +11,17 @@ import (
 // 待logic层根据业务需求调用
 const secret = "siming"
 
-func CheckUserExist(username string) {
+func CheckUserExist(username string) (bool, error) {
+	var count int
+
 	sqlStr := `select count(user_id) from user where username = ?`
 
-	err, _ := db.Get(sqlStr)
+	err := db.Get(&count, sqlStr, username)
 	if err != nil {
-		fmt.Println("查询数据失败")
+		//fmt.Println("查询数据失败")
+		return false, err
 	}
-	return
+	return count > 0, nil
 }
 
 func InsertUser(user *models.User) (err error) {
@@ -26,8 +29,11 @@ func InsertUser(user *models.User) (err error) {
   	user.Password = encryptPassword(user.Password)
 	// 执行sql 语句入库
 	sqlStr := `insert into user(user_id, username, password) values (?, ?, ?)`
-	// _, err := db.Exec(sqlStr, user.UserID, user.Username, user.Password)
-	db.Exec(sqlStr, user.UserID, user.Username, user.Password)
+	_, err = db.Exec(sqlStr, user.UserID, user.Username, user.Password)
+	if err != nil {
+		fmt.Printf("sql commit faild")
+	}
+	// db.Exec(sqlStr, user.UserID, user.Username, user.Password)
 	return
 }
 
