@@ -34,7 +34,7 @@ func main() {
 	//}
 
 	// 3. 初始化Mysql连接
-	if _, err := mysql.Init(); err != nil {
+	if  err := mysql.Init(); err != nil {
 		fmt.Printf("init mysql failed, err :%v\n", err)
 		return
 	}
