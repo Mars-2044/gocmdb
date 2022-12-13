@@ -30,6 +30,7 @@ func InsertUser(user *models.User) (err error) {
 	// 执行sql 语句入库
 	sqlStr := `insert into user(user_id, username, password) values (?, ?, ?)`
 	_, err = db.Exec(sqlStr, user.UserID, user.Username, user.Password)
+
 	if err != nil {
 		fmt.Printf("sql commit faild")
 	}

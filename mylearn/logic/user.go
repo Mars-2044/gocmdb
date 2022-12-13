@@ -33,6 +33,5 @@ func SignUp(p *models.ParamSignUP) (err error){
 	}
 
 	// 保存进数据库
-	mysql.InsertUser(user)
-	return
+	return mysql.InsertUser(user)
 }
