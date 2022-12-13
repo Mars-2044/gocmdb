@@ -1,6 +1,6 @@
 package controllers
 
-import  (
+import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"mylearn/logic"
@@ -30,9 +30,15 @@ func SignUpHandler(c *gin.Context) {
 	}
 
 	// 2.业务处理
-	logic.SignUp(&p)
-	// 3.返回响应
+	//logic.SignUp(&p)
+	if err := logic.SignUp(&p); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"msg": "注册失败",
+		})
+		return
+	}
 
+	// 3.返回响应
 	c.JSON(http.StatusOK, gin.H{
 		"msg": "success",
 	})

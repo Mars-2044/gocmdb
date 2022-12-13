@@ -9,7 +9,7 @@ import (
 
 var db *gorm.DB
 
-func Init() (err error) {
+func Init() (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True",
 		viper.GetString("mysql.user"),
 		viper.GetString("mysql.password"),
@@ -23,13 +23,12 @@ func Init() (err error) {
 
 	if err != nil{
 		fmt.Errorf("创建数据库连接失败: %v", err)
-		return
 	}
 
 	db.DB().SetMaxOpenConns(viper.GetInt("mysql.max_conn"))
 	db.DB().SetMaxIdleConns(viper.GetInt("mysql_idle_conn"))
 	// defer db.Close()
-	return
+	return db, err
 }
 
 func Close() {
